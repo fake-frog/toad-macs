@@ -30,7 +30,7 @@
                    " ( >___< ) "
                    " ^^ ~~~ ^^ "))
            (title "* ====== | TOAD-MACS | ====== *")
-           (menu "[r]ecent | [c]onfig")
+           (menu "[r]ecent | [o]pen | [c]onfig ")
            (total-lines (+ (length hat) (length frog) 3))
            (vpad (max 0 (/ (- (window-height) total-lines) 2))))
       (insert (make-string vpad ?\n))
@@ -42,6 +42,7 @@
       (insert (propertize (my/center-line title) 'face '(:foreground "#f666aa" :weight bold)) "\n\n")
       (insert (propertize (my/center-line menu) 'face '(:foreground "#dababa")) "\n"))
     (local-set-key "r" #'recentf)
+    (local-set-key "o" #'find-file)
     (local-set-key "c" (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
     (read-only-mode 1))
   (switch-to-buffer "*dashboard*")))
@@ -88,7 +89,14 @@
 (savehist-mode 1)
 
 (use-package eglot
-  :hook ((c-mode c++-mode) . eglot-ensure))
+  :hook ((c-mode c++-mode rustic-mode) . eglot-ensure))
+
+;; for clippy lsp 
+;;(use-package eglot
+;;  :hook ((c-mode c++-mode rustic-mode) . eglot-ensure)
+;;  :config
+;;  (setq-default eglot-workspace-configuration
+;;    '(:rust-analyzer (:check (:command "clippy")))))
 
 ;; Avy
 (use-package avy
@@ -181,6 +189,7 @@
 (global-set-key (kbd "M-;")     'mc/mark-next-like-this)
 (global-set-key (kbd "C-c f")   'rust-format-buffer)
 (global-set-key (kbd "C-c b")   'recentf)
+(global-set-key (kbd "C-c r")   'rustic-cargo-run)
 (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l))       
 
 (custom-set-variables
