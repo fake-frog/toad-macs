@@ -6,6 +6,7 @@
 (setq version-control t)      ;; use numbered backups
 (setq kept-new-versions 5)
 (setq kept-old-versions 2)
+(put 'downcase-region 'disabled nil)
 
 ;; ---------------------[ APPERANCE ]---------------------
 
@@ -17,41 +18,41 @@
     (concat (make-string pad ?\s) s)))
 
 (defun my/scratch-dashboard ()
-    (when (< (length command-line-args) 2)
-  (with-current-buffer (get-buffer-create "*dashboard*")
-    (erase-buffer)
-    (let* ((hat '("     ?     "
-                  "    / \\    "
-                  "   / * \\   "
-                  "  / * * \\  "
-                  " /_______\\ "))
-           (frog '("   @.-.@   "
-                   "  (-----)  "
-                   " ( >___< ) "
-                   " ^^ ~~~ ^^ "))
-           (title "* ====== | TOAD-MACS | ====== *")
-           (menu "[r]ecent | [o]pen | [c]onfig ")
-           (total-lines (+ (length hat) (length frog) 3))
-           (vpad (max 0 (/ (- (window-height) total-lines) 2))))
-      (insert (make-string vpad ?\n))
-      (dolist (line hat)
-        (insert (propertize (my/center-line line) 'face '(:foreground "#dc8add")) "\n"))
-      (dolist (line frog)
-        (insert (propertize (my/center-line line) 'face '(:foreground "#53997b")) "\n"))
-      (insert "\n")
-      (insert (propertize (my/center-line title) 'face '(:foreground "#f666aa" :weight bold)) "\n\n")
-      (insert (propertize (my/center-line menu) 'face '(:foreground "#dababa")) "\n"))
-    (local-set-key "r" #'recentf)
-    (local-set-key "o" #'find-file)
-    (local-set-key "c" (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
-    (read-only-mode 1))
-  (switch-to-buffer "*dashboard*")))
+  (when (< (length command-line-args) 2)
+    (with-current-buffer (get-buffer-create "*dashboard*")
+      (erase-buffer)
+      (let* ((hat '("     ?     "
+                    "    / \\    "
+                    "   / * \\   "
+                    "  / * * \\  "
+                    " /_______\\ "))
+             (frog '("   @.-.@   "
+                     "  (-----)  "
+                     " ( >___< ) "
+                     " ^^ ~~~ ^^ "))
+             (title "* ====== | TOAD-MACS | ====== *")
+             (menu "[r]ecent | [o]pen | [c]onfig ")
+             (total-lines (+ (length hat) (length frog) 3))
+             (vpad (max 0 (/ (- (window-height) total-lines) 2))))
+        (insert (make-string vpad ?\n))
+        (dolist (line hat)
+          (insert (propertize (my/center-line line) 'face 'font-lock-type-face) "\n"))
+        (dolist (line frog)
+          (insert (propertize (my/center-line line) 'face 'font-lock-string-face) "\n"))
+        (insert "\n")
+        (insert (propertize (my/center-line title) 'face '(:inherit font-lock-keyword-face :weight bold)) "\n\n")
+        (insert (propertize (my/center-line menu) 'face 'font-lock-defaults) "\n"))
+      (local-set-key "r" #'recentf)
+      (local-set-key "o" #'find-file)
+      (local-set-key "c" (lambda () (interactive) (find-file "~/.emacs")))
+      (read-only-mode 1))
+    (switch-to-buffer "*dashboard*")))
 (add-hook 'emacs-startup-hook #'my/scratch-dashboard)
 
 (add-hook 'emacs-startup-hook
           (lambda ()
             (message "%s" (propertize "_^-^_.--* ~~~"
-                                       'face '(:foreground "#53997b")))))
+                                      'face '(:foreground "#53997b")))))
 
 ;; -------------
 
@@ -62,17 +63,20 @@
 (setq scroll-conservatively 101)
 (electric-pair-mode 1)
 (global-display-line-numbers-mode 1)
-(add-to-list 'custom-theme-load-path "~/min-oblong-theme")
-(add-to-list 'custom-theme-load-path "~/system-themes/min-bling")
-(add-to-list 'custom-theme-load-path "~/system-themes/vbox")
-(add-to-list 'custom-theme-load-path "~/system-themes/magic-toad")
+(add-to-list 'custom-theme-load-path "~/magic-toad-theme") ;; adjust acordingling 
 (global-hl-line-mode 1)
 
-;;(load-theme 'vbox t)
-;;(load-theme 'min-bling t)
-(load-theme 'magic-toad t)
-;;(load-theme 'minoblong t)
-;;(load-theme `leuven)
+(load-theme 'magic-toad t) ;; night toad
+;;(load-theme 'magic-toad-light t) ;; day toad
+
+;; highlight operators in c 
+(font-lock-add-keywords
+ 'c-mode 
+ '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
+
+(font-lock-add-keywords
+ 'rustic-mode 
+ '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
 
 ;; ---------------------[ PACKAGES ]----------------------
 
@@ -80,7 +84,24 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;; Package setup
 ;;(package-initialize)
-(dolist (pkg '(swiper avy ivy clang-format multiple-cursors magit rustic flycheck corfu orderless cape corfu-terminal diff-hl vertico marginalia consult mood-line ace-window))
+(dolist (pkg '(swiper
+	       avy
+	       ivy
+	       clang-format
+	       multiple-cursors
+	       magit
+	       rustic
+	       flycheck
+	       corfu
+	       orderless
+	       cape
+	       corfu-terminal
+	       diff-hl
+	       vertico
+	       marginalia
+	       consult
+	       mood-line
+	       ace-window))
   (unless (package-installed-p pkg)
     (package-refresh-contents)
     (package-install pkg)))
@@ -171,11 +192,12 @@
 
 ;; ----------------------[ KEY MAP ]----------------------
 
-
 (with-eval-after-load 'cc-mode
   (define-key c-mode-base-map (kbd "C-d") 'delete-backward-char))
+
 (with-eval-after-load 'cc-mode
   (define-key c-mode-base-map (kbd "C-c C-c") 'compile))
+
 (global-set-key (kbd "C-d")     'delete-backward-char)
 (global-set-key (kbd "C-u")     'undo)
 (global-set-key (kbd "C-r")     'undo-redo)
@@ -191,24 +213,3 @@
 (global-set-key (kbd "C-c b")   'recentf)
 (global-set-key (kbd "C-c r")   'rustic-cargo-run)
 (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l))       
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("44e6d6845e571402c149a12acbf698391e62928443b3d1924478bbc54a573b32"
-     default))
- '(package-selected-packages
-   '(ace-window avy cape clang-format consult corfu-terminal diff-hl
-		flycheck geiser go-mode indent-guide inkpot-theme
-		magit marginalia mood-line multiple-cursors orderless
-		rustic swiper vertico)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'downcase-region 'disabled nil)
