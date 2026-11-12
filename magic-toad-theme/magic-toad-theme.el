@@ -11,8 +11,8 @@
 
 (magic-toad--set-faces
  'magic-toad
- "#100000"   ; bg
- "#111111"   ; bg-slight
+ "#111111"   ; bg
+ "#151515"   ; bg-slight
  "#1f1d1d"   ; bg-soft
  "#252121"   ; bg-raised
  "#dababa"   ; fg

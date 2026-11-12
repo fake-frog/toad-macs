@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;; -----------------------[ MISC ]------------------------
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
@@ -63,133 +65,155 @@
 (setq scroll-conservatively 101)
 (electric-pair-mode 1)
 (global-display-line-numbers-mode 1)
-(add-to-list 'custom-theme-load-path "~/magic-toad-theme") ;; adjust acordingling 
+(add-to-list 'custom-theme-load-path "~/toad-macs/magic-toad-theme") 
+(add-to-list 'custom-theme-load-path "~/toad-macs/lilypad-theme") 
+(add-to-list 'custom-theme-load-path "~/system-themes/fashion-nugget") 
+
 (global-hl-line-mode 1)
 
-(load-theme 'magic-toad t) ;; night toad
+;;(load-theme 'magic-toad t) ;; night toad
 ;;(load-theme 'magic-toad-light t) ;; day toad
+;;(load-theme 'lilypad t) 
+(load-theme 'fashion-nugget t) 
+
 
 ;; highlight operators in c 
-(font-lock-add-keywords
- 'c-mode 
- '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
+;; (font-lock-add-keywords
+;;  'c-mode 
+;;  '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
 
-(font-lock-add-keywords
- 'rustic-mode 
- '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
+;; (font-lock-add-keywords
+;;  'lua-mode 
+;;  '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
+
+
+;; (font-lock-add-keywords
+;;  'rustic-mode 
+;;  '(("[:./*&=><!%+-]" 0 'font-lock-string-face)))
+
+;; ---------------------[ PACKAGES ]----------------------
 
 ;; ---------------------[ PACKAGES ]----------------------
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; Package setup
-;;(package-initialize)
+
 (dolist (pkg '(swiper
-	       avy
-	       ivy
-	       clang-format
-	       multiple-cursors
-	       magit
-	       rustic
-	       flycheck
-	       corfu
-	       orderless
-	       cape
-	       corfu-terminal
-	       diff-hl
-	       vertico
-	       marginalia
-	       consult
-	       mood-line
-	       ace-window))
+               avy
+               ivy
+               clang-format
+               multiple-cursors
+               magit
+               rustic
+               flycheck
+               flycheck-eglot
+               corfu
+               orderless
+               cape
+               corfu-terminal
+               diff-hl
+               vertico
+               marginalia
+               consult
+               mood-line
+               ace-window
+               lua-mode))
   (unless (package-installed-p pkg)
     (package-refresh-contents)
     (package-install pkg)))
 
-(global-diff-hl-mode 1)
-(savehist-mode 1)
 
-(use-package eglot
-  :hook ((c-mode c++-mode rustic-mode) . eglot-ensure))
+;; ---- Editing / navigation ----
+(use-package multiple-cursors)
+(use-package ace-window)
+(use-package clang-format)
+(use-package magit)
+(use-package lua-mode)
 
-;; for clippy lsp 
-;;(use-package eglot
-;;  :hook ((c-mode c++-mode rustic-mode) . eglot-ensure)
-;;  :config
-;;  (setq-default eglot-workspace-configuration
-;;    '(:rust-analyzer (:check (:command "clippy")))))
-
-;; Avy
 (use-package avy
-  :ensure t
-  :custom
-  (avy-background t))
+  :custom (avy-background t))
+
+(use-package diff-hl
+  :config (global-diff-hl-mode 1))
+
+(use-package savehist
+  :ensure nil
+  :config (savehist-mode 1))
 
 (use-package mood-line
+  :config (mood-line-mode))
 
-  ;; Enable mood-line
-  :config
-  (mood-line-mode))
-
-(require 'multiple-cursors)
-
-;; Vertico / Marginalia / Consult
+;; ---- Minibuffer completion ----
 (use-package vertico
-  :init
-  (vertico-mode))
+  :init (vertico-mode))
 
 (use-package marginalia
-  :init
-  (marginalia-mode))
+  :init (marginalia-mode))
 
 (use-package consult
   :bind (("C-s"   . consult-line)
-         ("C-x b" . consult-buffer)))
-
-(with-eval-after-load 'consult
-  (setq consult-buffer-filter
-        (append consult-buffer-filter '("\\`\\*.*\\*\\'"))))
-
-
-(use-package corfu-terminal
-  :after corfu
+         ("C-x b" . consult-buffer))
   :config
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
+  (add-to-list 'consult-buffer-filter "\\`\\*.*\\*\\'"))
 
-(use-package rustic
-  :custom
-  (rustic-lsp-client 'eglot))
+(use-package orderless
+  :custom (completion-styles '(orderless basic)))
 
-(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
-
-(use-package flycheck
-  :hook (rustic-mode . flycheck-mode)
-  :custom
-  (flycheck-indication-mode `right-fringe))
-
-(setq flymake-fringe-indicator-position nil)
-(with-eval-after-load 'flymake
-  (when (boundp 'flymake-indicator-type)
-    (setq flymake-indicator-type nil)))
-
+;; ---- In-buffer completion ----
 (use-package corfu
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.1)
   (corfu-auto-prefix 1)
-  :init
-  (global-corfu-mode))
+  :init (global-corfu-mode))
 
+(use-package cape
+  :init (add-to-list 'completion-at-point-functions #'cape-file))
 
-(use-package orderless          ; fuzzy/out-of-order matching (fzf-style)
+;; (use-package corfu-terminal
+;;   :after corfu
+;;   :config
+;;   (unless (display-graphic-p)
+;;     (corfu-terminal-mode +1)))
+
+;; ---- LSP ----
+(defun my/eglot-trim-features ()
+  "Turn off Eglot extras that clutter the buffer or fight the theme."
+  (eglot-semantic-tokens-mode -1)
+  (eglot-inlay-hints-mode -1))
+
+(use-package eglot
+  :ensure nil
+  :hook (((c-mode c++-mode lua-mode rustic-mode) . eglot-ensure)
+         (eglot-managed-mode . my/eglot-trim-features)))
+  ;; For clippy via rust-analyzer:
+  ;; :config
+  ;; (setq-default eglot-workspace-configuration
+  ;;   '(:rust-analyzer (:check (:command "clippy")))))
+
+(use-package rustic
+  :custom (rustic-lsp-client 'eglot))
+
+;; ---- Diagnostics ----
+;; Eglot reports through Flymake; flycheck-eglot bridges it into Flycheck.
+(use-package flycheck
+  :demand t
+  :custom (flycheck-indication-mode 'right-fringe))
+
+(use-package flycheck-eglot
+  :after flycheck
+  :demand t
+  :config (global-flycheck-eglot-mode 1))
+
+;; Flymake's own indicators are off since Flycheck draws them.
+(use-package flymake
+  :ensure nil
   :custom
-  (completion-styles '(orderless basic)))
+  (flymake-fringe-indicator-position nil)
+  (flymake-indicator-type nil))
 
-(use-package cape                ; extra completion sources (file paths, dabbrev, etc.)
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-file))
-
+(setq eldoc-display-functions '(eldoc-display-in-echo-area)
+      eldoc-echo-area-use-multiline-p nil)   ; always one line
 ;; ----------------------[ KEY MAP ]----------------------
 
 (with-eval-after-load 'cc-mode
@@ -213,3 +237,18 @@
 (global-set-key (kbd "C-c b")   'recentf)
 (global-set-key (kbd "C-c r")   'rustic-cargo-run)
 (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l))       
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(ace-window cape clang-format consult corfu-terminal diff-hl flycheck
+		lua-mode magit marginalia mood-line multiple-cursors
+		orderless rustic swiper vertico)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
