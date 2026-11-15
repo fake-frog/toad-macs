@@ -23,7 +23,7 @@
    `(vertical-border ((t (:foreground ,bg-raised :background ,bg-raised))))
 
    ;; Font lock
-   `(font-lock-comment-face ((t (:foreground ,fg-dim :slant italic))))
+   `(font-lock-comment-face ((t (:foreground ,fg-dim :background ,bg-soft))))
    `(font-lock-doc-face ((t (:foreground ,accent))))
    `(font-lock-string-face ((t (:foreground ,accent-alt))))
    `(rust-string-interpolation ((t (:foreground ,fg))))
