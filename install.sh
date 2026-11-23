@@ -6,7 +6,7 @@
 #                         effect directly (handy if you hack on the config)
 #
 # This script only copies local files.  It never uses sudo and never
-# downloads anything: see README.txt for the packages, fonts and tools to
+# downloads anything: see README.md for the packages, fonts and tools to
 # install first.  Existing files that would be replaced are moved to
 # ~/.toad-macs-backup/<date-time>/ first, and running it again is safe.
 
@@ -142,7 +142,7 @@ done
 
 echo
 if ((${#missing[@]})); then
-    echo "Not installed yet (see Dependencies in README.txt):"
+    echo "Not installed yet (see Dependencies in README.md):"
     printf '    %s\n' "${missing[@]}"
 else
     echo "All dependencies found."
