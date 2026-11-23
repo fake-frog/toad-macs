@@ -1,0 +1,65 @@
+[window]
+opacity = 1
+dynamic_padding = true
+
+[window.padding]
+x = 15
+y = 10
+
+[font]
+size = 12
+
+[font.normal]
+family = "lilex"
+#family = "lilex"
+style = "normal"
+
+[font.offset]
+y=0
+
+[cursor]
+#style = { shape = "Beam", blinking = "On" }
+#thickness  = 0.2
+
+# ── Colours: mudpuddle (matches the Emacs theme in ~/toad-macs) ──
+# ANSI slots follow the Emacs theme: "yellow" is pink, "magenta" is violet.
+
+[colors.primary]
+background = '#1a1a19'
+foreground = '#c3c2b7'
+
+[colors.cursor]
+text   = '#1a1a19'
+cursor = '#ec835a'
+
+[colors.selection]
+text       = 'CellForeground'
+background = '#2c3947'
+
+[colors.search.matches]
+foreground = '#f0efec'
+background = '#543540'
+
+[colors.search.focused_match]
+foreground = '#1a1a19'
+background = '#ec835a'
+
+[colors.normal]
+black   = '#111110'
+red     = '#ec7e7e'
+green   = '#55bf50'
+yellow  = '#e87ba4'
+blue    = '#6da7ec'
+magenta = '#a096eb'
+cyan    = '#3bbd8c'
+white   = '#c3c2b7'
+
+[colors.bright]
+black   = '#898781'
+red     = '#ec7e7e'
+green   = '#55bf50'
+yellow  = '#e87ba4'
+blue    = '#6da7ec'
+magenta = '#a096eb'
+cyan    = '#3bbd8c'
+white   = '#f0efec'

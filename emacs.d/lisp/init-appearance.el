@@ -27,11 +27,13 @@
 ;; Adjust these paths if the theme repos move.
 (dolist (dir '("~/toad-macs/magic-toad-theme"
                "~/toad-macs/lilypad-theme"
+               "~/toad-macs/mudpuddle-theme"
                "~/system-themes/fashion-nugget"))
   (add-to-list 'custom-theme-load-path dir))
 
-;; Night toad.  Alternatives: lilypad, magic-toad-light (day toad), fashion-nugget.
-(load-theme 'magic-toad t)
+;; Mudpuddle: calm, standard colours.  Alternatives: magic-toad (night toad,
+;; bright), magic-toad-light (day toad), lilypad, fashion-nugget.
+(load-theme 'mudpuddle t)
 
 ;;;; Mode line
 

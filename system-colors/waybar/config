@@ -1,0 +1,81 @@
+// ~/.config/waybar/config: mudpuddle theme, see style.css for colours.
+// Icons are FontAwesome glyphs, coloured violet (#a096eb) with Pango spans
+// because Waybar's CSS can't target part of a module's label.
+{
+    "layer": "top",
+    "position": "top",
+    "height": 26,
+
+    "modules-left": ["sway/workspaces", "backlight", "pulseaudio", "network", "tray", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["disk", "memory", "cpu", "temperature", "battery"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": "  {}  "
+    },
+
+    "clock": {
+        "format": "<span color='#a096eb'>--  </span>{:%I:%M  %a %d %b}<span color='#a096eb'>  --</span>",
+        "tooltip-format": "{:%Y-%m-%d}"
+    },
+
+    "backlight": {
+        "format": "<span font='11px' color='#a096eb'>{icon}</span> {percent}%",
+        "format-icons": ["", " "],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    "pulseaudio": {
+        "format": "<span font='11px' color='#a096eb'></span> {volume}%",
+        "format-muted": "",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+
+    "network": {
+        "format-wifi": "<span font='10px' color='#a096eb'> </span>{essid}",
+        "format-ethernet": "eth",
+        "format-disconnected": "disconnected",
+        "tooltip-format": "{ifname} via {gwaddr}"
+    },
+
+    "tray": {
+        "spacing": 8
+    },
+
+    "disk": {
+        "path": "/",
+        "format": "<span font='11px' color='#a096eb'>  </span>{free}",
+        "tooltip-format": "{used} used / {total} total"
+    },
+
+    "memory": {
+        "format": "<span font='11px' color='#a096eb'> </span> {percentage}%"
+    },
+
+    "cpu": {
+        "format": "<span font='11px' color='#a096eb'></span> {usage}%"
+    },
+
+    "temperature": {
+        "thermal-zone": 1,
+        "format": "<span font='12px' color='#a096eb'></span> {temperatureC}°C"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 25,
+            "critical": 15
+        },
+        "format": "<span font='11px' color='#a096eb'>{icon}</span> {capacity}%",
+        "format-charging": "<span font='11px' color='#a096eb'></span> {capacity}%",
+        "format-plugged": "<span font='11px' color='#a096eb'></span> {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    }
+}

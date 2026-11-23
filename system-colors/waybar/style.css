@@ -1,0 +1,129 @@
+/* ~/.config/waybar/style.css: mudpuddle theme
+ * Same palette as the Emacs theme (~/toad-macs/mudpuddle-theme), Alacritty
+ * and sway.  Quiet grey text, violet icons, orange for the focused workspace.
+ */
+
+@define-color bg        #1a1a19;
+@define-color bg-dark   #111110;
+@define-color bg-alt    #292927;
+@define-color bg-blue   #2c3947;
+@define-color border    #383835;
+@define-color fg        #c3c2b7;
+@define-color fg-bright #f0efec;
+@define-color fg-muted  #898781;
+@define-color fg-faint  #5d5b57;
+@define-color orange    #ec835a;
+@define-color pink      #e87ba4;
+@define-color red       #ec7e7e;
+
+* {
+    font-family: "Inclusive Sans", "FontAwesome", monospace;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @bg-dark;
+    color: @fg-muted;
+}
+
+/* ── Modules ────────────────────────────────────────────────────────── */
+#workspaces,
+#mode,
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#tray {
+    margin: 3px 5px;
+    padding: 0 2px;
+    background: transparent;
+    color: @fg-muted;
+}
+
+#clock {
+    padding: 0 10px;
+    color: @fg;
+}
+
+#mode {
+    padding: 0 10px;
+    color: @orange;
+}
+
+#backlight {
+    padding-left: 0;
+}
+
+#battery {
+    margin-right: 10px;
+}
+
+/* ── Workspaces ─────────────────────────────────────────────────────── */
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 0;
+    margin-right: 5px;
+    background: @border;
+    color: @fg;
+}
+
+#workspaces button.focused {
+    background: @orange;
+    color: @bg;
+}
+
+#workspaces button.visible:not(.focused) {   /* on another monitor */
+    background: @bg-blue;
+    color: @fg-bright;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @bg;
+}
+
+#workspaces button:hover {
+    background: @fg-faint;
+    color: @fg-bright;
+    box-shadow: none;
+}
+
+/* ── States ─────────────────────────────────────────────────────────── */
+#battery.warning      { color: @pink; }
+#battery.critical,
+#temperature.critical { color: @red; }
+
+#pulseaudio.muted,
+#network.disconnected,
+#network.disabled     { color: @fg-faint; }
+
+/* ── Tray ───────────────────────────────────────────────────────────── */
+#tray {
+    margin-left: 15px;
+}
+
+#tray > *                { opacity: 0.3; }
+#tray > *:hover          { opacity: 0.6; }
+#tray > .passive         { opacity: 0.2; }
+#tray > .needs-attention { opacity: 1; background: @red; }
+
+#tray menu {
+    background: @bg-alt;
+    border: 1px solid @border;
+    color: @fg;
+}
+
+#tray menuitem:hover {
+    background: @bg-blue;
+}
