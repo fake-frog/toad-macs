@@ -5,7 +5,7 @@
 ;; and is not autoloaded by `load-theme' — the two theme files `require'
 ;; it directly.
 
-(defun lilypad--set-faces (theme-name bg bg-slight bg-soft bg-raised fg fg-dim accent accent-alt special purple)
+(defun lilypad--set-faces (theme-name bg bg-slight bg-soft bg-raised fg fg-dim accent accent-alt special purple error warning success)
   "Apply the lilypad face list to THEME-NAME using the given palette."
 
   (setq rustic-ansi-faces
@@ -17,7 +17,7 @@
    ;; Base faces
    `(default ((t (:foreground ,fg :background ,bg))))
    `(cursor ((t (:background ,special))))
-   `(region ((t (:foreground ,bg :background ,fg ))))
+   `(region ((t (:foreground ,bg :background ,accent-alt))))
    `(highlight ((t (:background ,bg-soft))))
    `(hl-line ((t (:background ,bg-slight))))
    `(fringe ((t (:background ,bg :foreground ,fg))))
@@ -41,7 +41,7 @@
    `(font-lock-variable-name-face ((t (:foreground ,fg))))
    `(font-lock-type-face ((t (:foreground ,accent :slant italic))))
    `(font-lock-constant-face ((t (:foreground ,fg))))
-   `(font-lock-warning-face ((t (:foreground ,fg-dim))))
+   `(font-lock-warning-face ((t (:foreground ,warning))))
    `(font-lock-negation-char-face ((t (:foreground ,purple))))
    `(font-lock-operator-face ((t (:foreground ,accent-alt))))
    `(font-lock-punctuation-face ((t (:foreground ,purple))))
@@ -76,17 +76,17 @@
    `(show-paren-mismatch ((t (:foreground ,accent :background ,bg :weight bold))))
 
    ;; Error/warning faces
-   `(error ((t (:foreground ,accent :weight bold))))
-   `(warning ((t (:foreground ,accent :weight bold))))
-   `(success ((t (:foreground ,fg :weight bold))))
+   `(error ((t (:foreground ,error :weight bold))))
+   `(warning ((t (:foreground ,warning :weight bold))))
+   `(success ((t (:foreground ,success :weight bold))))
 
-   `(flycheck-warning ((t (:underline (:color ,fg-dim :style wave)))))
-   `(flycheck-error ((t (:underline (:color ,accent :style wave)))))
-   `(flycheck-note ((t (:underline (:color ,purple :style wave)))))
+   `(flycheck-warning ((t (:underline (:color ,warning :style wave)))))
+   `(flycheck-error ((t (:underline (:color ,error :style wave)))))
+   `(flycheck-note ((t (:underline (:color ,warning :style wave)))))
 
-   `(flymake-warning ((t (:underline (:color ,fg-dim :style wave)))))
-   `(flymake-error ((t (:underline (:color ,accent :style wave)))))
-   `(flymake-note ((t (:underline (:color ,purple :style wave)))))
+   `(flymake-warning ((t (:underline (:color ,warning :style wave)))))
+   `(flymake-error ((t (:underline (:color ,error :style wave)))))
+   `(flymake-note ((t (:underline (:color ,warning :style wave)))))
 
    ;; Diagnostic severity levels
    `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,bg-soft :underline nil))))
@@ -165,15 +165,18 @@
    `(markdown-header-face-3 ((t (:inherit org-level-3))))
    `(markdown-code-face ((t (:inherit org-code))))
 
+   ;; Highlight todo
+   `(hl-todo ((t (:foreground ,warning :bg ,error))))
+
    ;; Magit
    `(magit-branch-local ((t (:foreground ,accent))))
    `(magit-branch-remote ((t (:foreground ,fg))))
    `(magit-diff-added ((t (:foreground ,fg :background ,(concat fg "20")))))
    `(magit-diff-removed ((t (:foreground ,accent :background ,(concat accent "20")))))
    `(magit-diff-context ((t (:foreground ,fg))))
-   `(diff-hl-margin-change ((t (:foreground ,purple :background ,bg-soft))))
-   `(diff-hl-margin-insert ((t (:foreground ,special :background ,bg-soft))))
-   `(diff-hl-margin-delete ((t (:foreground ,accent :background ,bg-soft))))
+   `(diff-hl-margin-change ((t (:foreground ,warning :background ,bg-soft))))
+   `(diff-hl-margin-insert ((t (:foreground ,success :background ,bg-soft))))
+   `(diff-hl-margin-delete ((t (:foreground ,error :background ,bg-soft))))
 
    ;; Which-key
    `(which-key-key-face ((t (:foreground ,accent :weight bold))))
@@ -218,13 +221,13 @@
    `(term-color-bright-white   ((t (:foreground ,fg))))
    
    ;; --- compilation-mode ---
-   `(compilation-error         ((t (:foreground ,accent :weight bold))))
-   `(compilation-warning       ((t (:foreground ,special :weight bold))))
-   `(compilation-info          ((t (:foreground ,purple))))
+   `(compilation-error         ((t (:foreground ,error :weight bold))))
+   `(compilation-warning       ((t (:foreground ,warning :weight bold))))
+   `(compilation-info          ((t (:foreground ,warning))))
    `(compilation-line-number   ((t (:foreground ,fg-dim))))
    `(compilation-column-number ((t (:foreground ,fg-dim))))
    `(compilation-mode-line-exit ((t (:foreground ,special :weight bold))))
-   `(compilation-mode-line-fail ((t (:foreground ,accent :weight bold))))
+   `(compilation-mode-line-fail ((t (:foreground ,error :weight bold))))
    `(compilation-mode-line-run  ((t (:foreground ,accent-alt :weight bold))))
 
      ;; --- ansi-color faces (normal) ---
@@ -250,8 +253,8 @@
    ;; --- cargo / rustic-compilation ---   
    `(rustic-compilation-line   ((t (:foreground ,fg-dim))))
    `(rustic-compilation-column ((t (:inherit compilation-column-number))))
-   `(rustic-compilation-error  ((t (:foreground ,accent :weight bold))))
-   `(rustic-compilation-warning ((t (:foreground ,special :weight bold))))
+   `(rustic-compilation-error  ((t (:foreground ,error :weight bold))))
+   `(rustic-compilation-warning ((t (:foreground ,warning :weight bold))))
    `(rustic-compilation-info   ((t (:foreground ,purple))))
    `(rustic-message            ((t (:foreground ,fg))))
    ))

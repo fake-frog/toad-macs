@@ -11,17 +11,19 @@
 
 (lilypad--set-faces
  'lilypad
- "#111111"   ; bg
- "#151515"   ; bg-slight
+ "#151515"   ; bg
+ "#191919"   ; bg-slight
  "#1f1d1d"   ; bg-soft
  "#252121"   ; bg-raised
  "#dababa"   ; fg
  "#696262"   ; fg-dim
- "#dababa"   ; accent
- "#f666aa"   ; accent-alt
+ "#bccca3"   ; accent
+ "#86c29b"   ; accent-alt
  "#53997b"   ; special
- "#dababa")  ; purple
-
+ "#539992"   ; purple
+ "#f66151"   ; error
+ "#dc8add"   ; warning
+ "#53997b")  ; good
 (provide-theme 'lilypad)
 
 ;;; lilypad-theme.el ends here
