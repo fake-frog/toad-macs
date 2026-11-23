@@ -1,7 +1,10 @@
 ;;; magic-toad-light-theme.el --- A magical toad, but it's daytime. -*- lexical-binding: t; -*-
 
-(require 'magic-toad-common
-	 (expand-file-name "magic-toad-common" (file-name-directory load-file-name)))
+;;; Code:
+
+(load (expand-file-name "magic-toad-common"
+                        (file-name-directory (or load-file-name buffer-file-name)))
+      nil t)
 
 (deftheme magic-toad-light
   "A magical toad, but it's daytime."
@@ -11,16 +14,16 @@
 
 (magic-toad--set-faces
  'magic-toad-light
- "#ffffff"   ; bg (was fg)
- "#fafafa"   ; bg-slight (slightly darker than bg)
- "#efefef"   ; bg-soft
- "#ffedfd"   ; bg-raised (most contrast from bg)
- "#221111"   ; fg (was bg)
- "#aaaaaa"   ; fg-dim (darkened a touch for legibility on light bg)
- "#f66151"   ; accent
- "#f666aa"   ; accent-alt
- "#43896b"   ; special
- "#dc8add")  ; purple
+ :bg         "#ffffff"
+ :bg-slight  "#fafafa"
+ :bg-soft    "#efefef"
+ :bg-raised  "#ffedfd"
+ :fg         "#221111"
+ :fg-dim     "#aaaaaa"
+ :accent     "#f66151"
+ :accent-alt "#f666aa"
+ :special    "#43896b"
+ :purple     "#dc8add")
 
 (provide-theme 'magic-toad-light)
 
