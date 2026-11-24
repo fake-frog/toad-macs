@@ -96,6 +96,34 @@ install_file system-colors/waybar/style.css       "$config/waybar/style.css"
 install_file system-colors/alacritty/alacritty.toml "$config/alacritty/alacritty.toml"
 install_file system-colors/blerc                  "$HOME/.blerc"
 
+# ── Firefox theme ────────────────────────────────────────────────────────────
+# Firefox installs themes from an .xpi (a zip), so build one from
+# system-colors/firefox/.  Fixed timestamps keep the zip identical between
+# runs.  Firefox itself has to install it: see "Firefox theme" in README.md.
+echo; echo "Firefox"
+xpi=$HOME/.local/share/toad-macs/mudpuddle-firefox.xpi
+if command -v python3 >/dev/null; then
+    mkdir -p -- "$(dirname -- "$xpi")"
+    tmp=$(mktemp)
+    python3 - "$repo/system-colors/firefox" "$tmp" <<'PY'
+import os, sys, zipfile
+src, out = sys.argv[1], sys.argv[2]
+with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+    for name in sorted(os.listdir(src)):
+        info = zipfile.ZipInfo(name, date_time=(2020, 1, 1, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        with open(os.path.join(src, name), "rb") as f:
+            z.writestr(info, f.read())
+PY
+    if [[ -f $xpi ]] && cmp -s -- "$tmp" "$xpi"; then
+        rm -f -- "$tmp"; say unchanged "$xpi"
+    else
+        mv -- "$tmp" "$xpi"; chmod 644 -- "$xpi"; say built "$xpi"
+    fi
+else
+    warn "python3 not found, so the Firefox theme wasn't built."
+fi
+
 # ── Shell (~/.bashrc) ────────────────────────────────────────────────────────
 # Add only the lines that aren't there already.
 echo; echo "Shell"
@@ -124,6 +152,7 @@ if command -v sway >/dev/null; then
 fi
 if pkill -USR2 -x waybar 2>/dev/null; then say reloaded waybar; fi
 say note "Alacritty picks up its new colours on its own; new shells load ~/.blerc."
+say note "Firefox: install the theme once by hand (README.md, \"Firefox theme\")."
 if emacsclient -e t >/dev/null 2>&1; then
     say note "An Emacs server is running: save your work, then restart it with"
     say ""   "emacsclient -e '(kill-emacs)'"
@@ -131,7 +160,7 @@ fi
 
 # ── Anything missing? ────────────────────────────────────────────────────────
 missing=()
-for cmd in emacs sway swayidle swaylock waybar alacritty bemenu-run nm-applet dex \
+for cmd in emacs sway swayidle swaylock waybar alacritty firefox bemenu-run nm-applet dex \
            brightnessctl pactl git clangd clang-format rust-analyzer; do
     command -v "$cmd" >/dev/null || missing+=("$cmd")
 done

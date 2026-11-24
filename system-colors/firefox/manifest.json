@@ -1,0 +1,63 @@
+{
+  "manifest_version": 2,
+  "name": "mudpuddle",
+  "version": "1.0",
+  "description": "Calm dark theme with warm grays, matching the mudpuddle Emacs theme from toad-macs.",
+  "browser_specific_settings": {
+    "gecko": { "id": "mudpuddle@toad-macs" }
+  },
+  "theme": {
+    "colors": {
+      "frame": "#111110",
+      "frame_inactive": "#111110",
+      "tab_background_text": "#898781",
+      "tab_selected": "#1a1a19",
+      "tab_text": "#f0efec",
+      "tab_line": "#ec835a",
+      "tab_loading": "#ec835a",
+      "tab_background_separator": "#383835",
+
+      "toolbar": "#1a1a19",
+      "toolbar_text": "#c3c2b7",
+      "toolbar_top_separator": "#111110",
+      "toolbar_bottom_separator": "#383835",
+      "toolbar_vertical_separator": "#383835",
+      "icons": "#c3c2b7",
+      "icons_attention": "#ec835a",
+      "button_background_hover": "#292927",
+      "button_background_active": "#383835",
+
+      "toolbar_field": "#222221",
+      "toolbar_field_text": "#c3c2b7",
+      "toolbar_field_border": "#292927",
+      "toolbar_field_focus": "#222221",
+      "toolbar_field_text_focus": "#f0efec",
+      "toolbar_field_border_focus": "#ec835a",
+      "toolbar_field_highlight": "#2c3947",
+      "toolbar_field_highlight_text": "#f0efec",
+
+      "popup": "#292927",
+      "popup_text": "#c3c2b7",
+      "popup_border": "#383835",
+      "popup_highlight": "#2c3947",
+      "popup_highlight_text": "#f0efec",
+
+      "sidebar": "#1a1a19",
+      "sidebar_text": "#c3c2b7",
+      "sidebar_border": "#383835",
+      "sidebar_highlight": "#2c3947",
+      "sidebar_highlight_text": "#f0efec",
+
+      "ntp_background": "#1a1a19",
+      "ntp_text": "#c3c2b7",
+      "ntp_card_background": "#222221",
+
+      "focus_outline": "#ec835a",
+      "bookmark_text": "#c3c2b7"
+    },
+    "properties": {
+      "color_scheme": "dark",
+      "content_color_scheme": "dark"
+    }
+  }
+}

@@ -52,6 +52,7 @@ The rest of the desktop, in mudpuddle colours.
 | `waybar/style.css` | `~/.config/waybar/style.css` |
 | `alacritty/alacritty.toml` | `~/.config/alacritty/alacritty.toml` |
 | `blerc` | `~/.blerc` (ble.sh, the bash prompt) |
+| `firefox/manifest.json` | built into `~/.local/share/toad-macs/mudpuddle-firefox.xpi` ([install it in Firefox](#firefox-theme)) |
 
 ## Install
 
@@ -69,6 +70,22 @@ The rest of the desktop, in mudpuddle colours.
 - adds the ble.sh line and the `e` alias to `~/.bashrc` if they're missing;
 - reloads sway and waybar if they're running.
 
+### Firefox theme
+
+`install.sh` builds the theme, but Firefox has to install it. Do this once:
+
+1. Open `about:config`, set `xpinstall.signatures.required` to `false`.
+   Only Firefox ESR, Developer Edition and Nightly allow this; Debian's `firefox-esr` does.
+2. Open `about:addons`, click the gear icon, choose **Install Add-on From File…**
+   and pick `~/.local/share/toad-macs/mudpuddle-firefox.xpi`.
+
+After changing `system-colors/firefox/manifest.json`, run `install.sh` again, bump
+`"version"` in the manifest, and reinstall the `.xpi` the same way.
+
+To just try it without installing: `about:debugging` → **This Firefox** →
+**Load Temporary Add-on…** → pick `system-colors/firefox/manifest.json`.
+It goes away when Firefox restarts.
+
 Run `./install.sh --link` to symlink instead of copy, so edits in the repo apply straight away.
 
 Emacs loads the themes from `~/toad-macs`. If you clone the repo somewhere else, `install.sh` links `~/toad-macs` to it.
@@ -83,7 +100,7 @@ Everything in this section needs the internet.
 sudo apt install emacs-pgtk git \
     sway swayidle swaylock waybar alacritty bemenu \
     network-manager-applet dex brightnessctl pulseaudio-utils \
-    fonts-font-awesome fontconfig curl unzip make gawk \
+    firefox-esr fonts-font-awesome fontconfig curl unzip make gawk python3 \
     clangd clang-format rustup
 ```
 
