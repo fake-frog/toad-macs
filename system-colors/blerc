@@ -18,7 +18,7 @@ bleopt exec_errexit_mark=   # no "[ble: exit N]" after failing commands
 
 # ── Colours (mudpuddle) ──────────────────────────────────────────────────────
 # Same roles as the Emacs theme: commands blue like function calls,
-# builtins pink, keywords violet, strings green, options aqua, errors red.
+# builtins yellow, keywords violet, strings green, options aqua, errors red.
 
 # Text and comments
 ble-face -s syntax_default       fg=#c3c2b7
@@ -32,7 +32,7 @@ ble-face -s auto_complete        fg=#898781,italic   # ghost text, like comments
 ble-face -s disabled             fg=#898781
 
 # Commands
-ble-face -s command_builtin   fg=#e87ba4
+ble-face -s command_builtin   fg=#e6903a
 ble-face -s command_keyword   fg=#a096eb
 ble-face -s command_alias     fg=#6da7ec
 ble-face -s command_function  fg=#6da7ec

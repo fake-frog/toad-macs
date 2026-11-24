@@ -13,7 +13,7 @@
 @define-color fg-muted  #898781;
 @define-color fg-faint  #5d5b57;
 @define-color orange    #ec835a;
-@define-color pink      #e87ba4;
+@define-color yellow    #e6903a;
 @define-color red       #ec7e7e;
 
 * {
@@ -100,7 +100,7 @@ window#waybar {
 }
 
 /* ── States ─────────────────────────────────────────────────────────── */
-#battery.warning      { color: @pink; }
+#battery.warning      { color: @yellow; }
 #battery.critical,
 #temperature.critical { color: @red; }
 

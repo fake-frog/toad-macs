@@ -7,7 +7,7 @@
 ;;
 ;; Inspired by the Claude desktop app's dark mode: the grays come from its
 ;; UI, and the syntax roles follow the One Dark palette its Code tab uses
-;; (keywords violet, strings green, functions blue, types pink, numbers
+;; (keywords violet, strings green, functions blue, types yellow, numbers
 ;; orange, constants and operators aqua), drawn in Claude's softer tints.
 ;; Every syntax colour sits at roughly 6-7:1 contrast on the background.
 
@@ -42,23 +42,24 @@
        ;; Colours
        (red       "#ec7e7e")
        (orange    "#ec835a")
-       (pink      "#e87ba4")
+       (yellow    "#e6903a")
        (green     "#55bf50")
        (aqua      "#3bbd8c")
        (blue      "#6da7ec")
        (violet    "#a096eb")
        ;; Tinted backgrounds
        (bg-blue          (mudpuddle--blend blue bg 0.22))
-       (bg-pink          (mudpuddle--blend pink bg 0.28))
+       (bg-yellow        (mudpuddle--blend yellow bg 0.28))
        (added-bg         (mudpuddle--blend green bg 0.13))
        (added-bg-strong  (mudpuddle--blend green bg 0.26))
        (removed-bg       (mudpuddle--blend red bg 0.13))
        (removed-bg-strong (mudpuddle--blend red bg 0.26))
+       (changed-bg       (mudpuddle--blend yellow bg 0.13))
        ;; ANSI colours: (name normal bright)
        (ansi `(("black"   ,bg-dark ,fg-muted)
                ("red"     ,red     ,red)
                ("green"   ,green   ,green)
-               ("yellow"  ,pink    ,pink)
+               ("yellow"  ,yellow  ,yellow)
                ("blue"    ,blue    ,blue)
                ("magenta" ,violet  ,violet)
                ("cyan"    ,aqua    ,aqua)
@@ -107,7 +108,7 @@
 
       ;;;; Status
       (error ((t (:foreground ,red :weight bold))))
-      (warning ((t (:foreground ,pink :weight bold))))
+      (warning ((t (:foreground ,yellow :weight bold))))
       (success ((t (:foreground ,green :weight bold))))
 
       ;;;; Font lock
@@ -116,14 +117,14 @@
       (font-lock-doc-face ((t (:foreground ,fg-muted :slant italic))))
       (font-lock-string-face ((t (:foreground ,green))))
       (font-lock-keyword-face ((t (:foreground ,violet))))
-      (font-lock-builtin-face ((t (:foreground ,pink))))
+      (font-lock-builtin-face ((t (:foreground ,yellow))))
       (font-lock-function-name-face ((t (:foreground ,blue))))
       (font-lock-variable-name-face ((t (:foreground ,fg))))
-      (font-lock-type-face ((t (:foreground ,pink))))
+      (font-lock-type-face ((t (:foreground ,yellow))))
       (font-lock-constant-face ((t (:foreground ,aqua))))
       (font-lock-number-face ((t (:foreground ,orange))))
       (font-lock-escape-face ((t (:foreground ,aqua))))
-      (font-lock-warning-face ((t (:foreground ,pink))))
+      (font-lock-warning-face ((t (:foreground ,yellow))))
       (font-lock-negation-char-face ((t (:foreground ,red))))
       (font-lock-operator-face ((t (:foreground ,aqua))))
       (font-lock-punctuation-face ((t (:foreground ,fg))))
@@ -170,7 +171,7 @@
       (rainbow-delimiters-depth-1-face ((t (:foreground ,blue))))
       (rainbow-delimiters-depth-2-face ((t (:foreground ,violet))))
       (rainbow-delimiters-depth-3-face ((t (:foreground ,aqua))))
-      (rainbow-delimiters-depth-4-face ((t (:foreground ,pink))))
+      (rainbow-delimiters-depth-4-face ((t (:foreground ,yellow))))
       (rainbow-delimiters-depth-5-face ((t (:foreground ,green))))
       (rainbow-delimiters-depth-6-face ((t (:foreground ,orange))))
       (rainbow-delimiters-depth-7-face ((t (:foreground ,fg-bright))))
@@ -199,14 +200,14 @@
       (mood-line-buffer-status-narrowed ((t (:foreground ,violet))))
       (mood-line-status-neutral ((t (:foreground ,fg-muted))))
       (mood-line-status-error ((t (:foreground ,red :weight bold))))
-      (mood-line-status-warning ((t (:foreground ,pink))))
+      (mood-line-status-warning ((t (:foreground ,yellow))))
       (mood-line-status-info ((t (:foreground ,blue))))
       (mood-line-status-success ((t (:foreground ,green))))
 
       ;;;; Search
       (isearch ((t (:foreground ,bg :background ,orange :weight bold))))
       (isearch-fail ((t (:foreground ,red))))
-      (lazy-highlight ((t (:foreground ,fg-bright :background ,bg-pink))))
+      (lazy-highlight ((t (:foreground ,fg-bright :background ,bg-yellow))))
       (match ((t (:foreground ,fg-bright :background ,bg-blue))))
 
       ;;;; Minibuffer completion (vertico, orderless, consult)
@@ -235,13 +236,13 @@
 
       ;;;; Diagnostics (flycheck, flymake, eglot)
       (flycheck-error ((t (:underline (:color ,red :style wave)))))
-      (flycheck-warning ((t (:underline (:color ,pink :style wave)))))
+      (flycheck-warning ((t (:underline (:color ,yellow :style wave)))))
       (flycheck-info ((t (:underline (:color ,blue :style wave)))))
       (flycheck-fringe-error ((t (:foreground ,red))))
-      (flycheck-fringe-warning ((t (:foreground ,pink))))
+      (flycheck-fringe-warning ((t (:foreground ,yellow))))
       (flycheck-fringe-info ((t (:foreground ,blue))))
       (flymake-error ((t (:underline (:color ,red :style wave)))))
-      (flymake-warning ((t (:underline (:color ,pink :style wave)))))
+      (flymake-warning ((t (:underline (:color ,yellow :style wave)))))
       (flymake-note ((t (:underline (:color ,blue :style wave)))))
       (eglot-highlight-symbol-face ((t (:background ,border))))
       (eglot-inlay-hint-face ((t (:foreground ,fg-faint))))
@@ -261,10 +262,10 @@
       (diff-file-header ((t (:foreground ,fg-bright :background ,bg-alt :weight bold))))
       (diff-hl-insert ((t (:foreground ,green :background ,green))))
       (diff-hl-delete ((t (:foreground ,red :background ,red))))
-      (diff-hl-change ((t (:foreground ,pink :background ,pink))))
-      (diff-hl-margin-insert ((t (:foreground ,green :background ,green))))
-      (diff-hl-margin-delete ((t (:foreground ,red :background ,red))))
-      (diff-hl-margin-change ((t (:foreground ,pink :background ,pink))))
+      (diff-hl-change ((t (:foreground ,yellow :background ,yellow))))
+      (diff-hl-margin-insert ((t (:foreground ,green :background ,added-bg))))
+      (diff-hl-margin-delete ((t (:foreground ,red :background ,removed-bg))))
+      (diff-hl-margin-change ((t (:foreground ,yellow :background ,changed-bg))))
       (magit-section-heading ((t (:foreground ,blue :weight bold))))
       (magit-section-highlight ((t (:background ,bg-hl))))
       (magit-branch-local ((t (:foreground ,blue))))
@@ -296,13 +297,13 @@
 
       ;;;; Compilation and cargo (rustic)
       (compilation-error ((t (:foreground ,red :weight bold))))
-      (compilation-warning ((t (:foreground ,pink :weight bold))))
+      (compilation-warning ((t (:foreground ,yellow :weight bold))))
       (compilation-info ((t (:foreground ,blue))))
       (compilation-line-number ((t (:foreground ,fg-muted))))
       (compilation-column-number ((t (:foreground ,fg-muted))))
       (compilation-mode-line-exit ((t (:foreground ,green :weight bold))))
       (compilation-mode-line-fail ((t (:foreground ,red :weight bold))))
-      (compilation-mode-line-run ((t (:foreground ,pink :weight bold))))
+      (compilation-mode-line-run ((t (:foreground ,yellow :weight bold))))
       (rustic-compilation-error ((t (:inherit compilation-error))))
       (rustic-compilation-warning ((t (:inherit compilation-warning))))
       (rustic-compilation-info ((t (:inherit compilation-info))))
@@ -320,7 +321,7 @@
       (org-level-1 ((t (:foreground ,blue :weight bold))))
       (org-level-2 ((t (:foreground ,violet :weight bold))))
       (org-level-3 ((t (:foreground ,green :weight bold))))
-      (org-level-4 ((t (:foreground ,pink :weight bold))))
+      (org-level-4 ((t (:foreground ,yellow :weight bold))))
       (org-code ((t (:foreground ,orange))))
       (org-verbatim ((t (:foreground ,aqua))))
       (org-block ((t (:background ,bg-hl :extend t))))

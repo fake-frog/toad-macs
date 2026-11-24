@@ -22,7 +22,7 @@ y=0
 #thickness  = 0.2
 
 # ── Colours: mudpuddle (matches the Emacs theme in ~/toad-macs) ──
-# ANSI slots follow the Emacs theme: "yellow" is pink, "magenta" is violet.
+# ANSI slots follow the Emacs theme: "yellow" is golden yellow, "magenta" is violet.
 
 [colors.primary]
 background = '#1a1a19'
@@ -38,7 +38,7 @@ background = '#2c3947'
 
 [colors.search.matches]
 foreground = '#f0efec'
-background = '#543540'
+background = '#533b22'
 
 [colors.search.focused_match]
 foreground = '#1a1a19'
@@ -48,7 +48,7 @@ background = '#ec835a'
 black   = '#111110'
 red     = '#ec7e7e'
 green   = '#55bf50'
-yellow  = '#e87ba4'
+yellow  = '#e6903a'
 blue    = '#6da7ec'
 magenta = '#a096eb'
 cyan    = '#3bbd8c'
@@ -58,7 +58,7 @@ white   = '#c3c2b7'
 black   = '#898781'
 red     = '#ec7e7e'
 green   = '#55bf50'
-yellow  = '#e87ba4'
+yellow  = '#e6903a'
 blue    = '#6da7ec'
 magenta = '#a096eb'
 cyan    = '#3bbd8c'
