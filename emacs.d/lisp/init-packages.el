@@ -140,58 +140,5 @@
   :custom
   (rustic-lsp-client 'eglot))
 
-;;;; Lisp / Scheme / Racket
-
-(defun my/disable-electric-pair ()
-  "Turn off `electric-pair-mode' locally (paredit already pairs delimiters)."
-  (electric-pair-local-mode -1))
-
-(use-package paredit
-  :hook (((scheme-mode racket-mode) . paredit-mode)
-         (paredit-mode . my/disable-electric-pair)))
-
-(use-package rainbow-delimiters
-  :hook ((scheme-mode racket-mode) . rainbow-delimiters-mode))
-
-(use-package geiser
-  :defer t)
-
-(use-package geiser-guile
-  :defer t)
-
-(use-package macrostep-geiser
-  :hook ((geiser-mode geiser-repl-mode) . macrostep-geiser-setup))
-
-(use-package racket-mode
-  :hook ((racket-mode . racket-xp-mode)
-         (racket-mode . racket-smart-open-bracket-mode)))
-
-(defun my/raco-fmt-buffer ()
-  "Format the current Racket buffer with `raco fmt'.
-Requires `raco pkg install fmt'.  Formats a temp copy, then swaps it in
-with `replace-buffer-contents' so point, markers and undo history survive."
-  (interactive)
-  (let ((tmp (make-temp-file "raco-fmt-" nil ".rkt"))
-        (out (generate-new-buffer " *raco-fmt*")))
-    (unwind-protect
-        (progn
-          (write-region nil nil tmp nil 'silent)
-          (if (zerop (call-process "raco" nil out nil "fmt" "-i" tmp))
-              (let ((new (generate-new-buffer " *raco-fmt-new*")))
-                (unwind-protect
-                    (progn
-                      (with-current-buffer new (insert-file-contents tmp))
-                      (replace-buffer-contents new))
-                  (kill-buffer new)))
-            (message "raco fmt failed: %s"
-                     (string-trim (with-current-buffer out (buffer-string))))))
-      (delete-file tmp)
-      (kill-buffer out))))
-
-;;;; Other languages
-
-(use-package csound-mode
-  :mode ("\\.csd\\'" "\\.orc\\'" "\\.sco\\'"))
-
 (provide 'init-packages)
 ;;; init-packages.el ends here

@@ -15,6 +15,7 @@
 A nice Emacs config with a nice theme to go with it.
 
 Made for Debian 13 (trixie), sway, and Emacs 30 in the terminal.
+The Emacs config is set up for Rust and C/C++ development.
 
 ## What's in here
 
@@ -27,7 +28,7 @@ Made for Debian 13 (trixie), sway, and Emacs 30 in the terminal.
 | `early-init.el` | startup tuning |
 | `init.el` | loads the modules below |
 | `lisp/init-defaults.el` | backups, history, editing basics |
-| `lisp/init-packages.el` | every package, plus LSP (eglot/flycheck) |
+| `lisp/init-packages.el` | every package, plus LSP for Rust and C (eglot/flycheck) |
 | `lisp/init-appearance.el` | theme, mode line, toad dashboard |
 | `lisp/init-terminal.el` | clipboard, mouse, glyphs for `emacs -nw` |
 | `lisp/init-keybindings.el` | all the keys |
@@ -83,7 +84,7 @@ sudo apt install emacs-pgtk git \
     sway swayidle swaylock waybar alacritty bemenu \
     network-manager-applet dex brightnessctl pulseaudio-utils \
     fonts-font-awesome fontconfig curl unzip make gawk \
-    clangd racket guile-3.0 rustup
+    clangd clang-format rustup
 ```
 
 ### Rust toolchain and LSP server (rustup)
@@ -116,12 +117,6 @@ fc-cache -f
 git clone --recursive --depth 1 --shallow-submodules \
     https://github.com/akinomyoga/ble.sh.git /tmp/ble.sh
 make -C /tmp/ble.sh install PREFIX=~/.local
-```
-
-### Racket formatter (optional, for `C-c f` in Racket buffers)
-
-```bash
-raco pkg install fmt
 ```
 
 ### Emacs packages

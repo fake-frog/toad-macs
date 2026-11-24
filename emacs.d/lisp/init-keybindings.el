@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 ;; Global bindings first, then per-mode overrides.  Mode maps that shadow a
-;; global binding (cc-mode, paredit) re-assert it below.
+;; global binding (cc-mode) re-assert it below.
 
 ;;; Code:
 
@@ -63,22 +63,12 @@
   (define-key eglot-mode-map (kbd "C-c l f") #'eglot-format-buffer)
   (define-key eglot-mode-map (kbd "C-c l d") #'eldoc-doc-buffer))
 
-;; C-c f formats the buffer in Rust and Racket.
+;; C-c f formats the buffer: rustfmt in Rust, clang-format in C/C++.
 (with-eval-after-load 'rustic
   (define-key rustic-mode-map (kbd "C-c f") #'rustic-format-buffer))
 
-(with-eval-after-load 'racket-mode
-  (define-key racket-mode-map (kbd "C-c f") #'my/raco-fmt-buffer))
-
-;; paredit-mode-map shadows several globals above, so re-assert them:
-;;   C-d   paredit-forward-delete -> paredit-backward-delete
-;;   M-s   paredit-splice-sexp    -> isearch-backward (splice moved to C-c s)
-;;   M-;   paredit-comment-dwim   -> mc/mark-next-like-this
-(with-eval-after-load 'paredit
-  (define-key paredit-mode-map (kbd "C-d")   #'paredit-backward-delete)
-  (define-key paredit-mode-map (kbd "M-s")   #'isearch-backward)
-  (define-key paredit-mode-map (kbd "M-;")   #'mc/mark-next-like-this)
-  (define-key paredit-mode-map (kbd "C-c s") #'paredit-splice-sexp))
+(with-eval-after-load 'cc-mode
+  (define-key c-mode-base-map (kbd "C-c f") #'clang-format-buffer))
 
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

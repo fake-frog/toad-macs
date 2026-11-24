@@ -132,7 +132,7 @@ fi
 # ── Anything missing? ────────────────────────────────────────────────────────
 missing=()
 for cmd in emacs sway swayidle swaylock waybar alacritty bemenu-run nm-applet dex \
-           brightnessctl pactl git clangd rust-analyzer racket guile; do
+           brightnessctl pactl git clangd clang-format rust-analyzer; do
     command -v "$cmd" >/dev/null || missing+=("$cmd")
 done
 for font in Lilex "Inclusive Sans" FontAwesome; do

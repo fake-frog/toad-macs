@@ -22,7 +22,7 @@
 (recentf-mode 1)                  ; track recent files (C-c b, dashboard [r])
 
 ;;;; Editing
-(electric-pair-mode 1)            ; auto-close brackets (disabled under paredit)
+(electric-pair-mode 1)            ; auto-close brackets
 
 ;; Re-enable commands that Emacs disables by default.
 (put 'downcase-region 'disabled nil)
